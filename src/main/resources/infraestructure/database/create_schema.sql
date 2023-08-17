@@ -1,0 +1,2 @@
+DROP SCHEMA IF EXISTS gym_tonic;
+CREATE SCHEMA IF NOT EXISTS gym_tonic;
