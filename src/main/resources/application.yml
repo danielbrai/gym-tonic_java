@@ -4,3 +4,7 @@ spring:
     username: ${PROD_DB_USERNAME}
     password: ${PROD_DB_PASSWD}
     name: gym-tonic
+
+server:
+  port: ${APP_PORT}
+  address: 0.0.0.0
