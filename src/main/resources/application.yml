@@ -6,5 +6,5 @@ spring:
     name: gym-tonic
 
 server:
-  port: ${APP_PORT}
+  port: ${PORT}
   address: 0.0.0.0
