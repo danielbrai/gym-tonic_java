@@ -31,7 +31,7 @@ public class ExerciciosRepositoryImpl implements ExerciciosRepository {
                             intervalo_segundos as intervaloSegundos,
                             numero_repeticoes as numeroRepeticoes
                         FROM
-                            gym_tonic.exercicio;
+                            exercicio
                         """,
                 new BeanPropertyRowMapper<>(ExercicioTable.class)
         );
