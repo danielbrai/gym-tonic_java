@@ -6,10 +6,10 @@ import com.danielbrai.gymtonic.entrypoint.model.ExercicioView;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ExercicioToExercicioViewMapper<I,O> implements BaseMapper<Exercicio, ExercicioView> {
+public class ExercicioViewToExercicioMapper<I,O> implements BaseMapper<ExercicioView, Exercicio> {
     @Override
-    public ExercicioView traduzir(Exercicio input) {
-        return ExercicioView.builder()
+    public Exercicio traduzir(ExercicioView input) {
+        return Exercicio.builder()
                 .id(input.getId())
                 .carga(input.getCarga())
                 .intervaloSegundos(input.getIntervaloSegundos())

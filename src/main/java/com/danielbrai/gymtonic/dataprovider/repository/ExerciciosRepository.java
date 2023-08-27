@@ -7,4 +7,5 @@ import java.util.List;
 public interface ExerciciosRepository {
 
     List<Exercicio> listarExercicios();
+    Integer criarExercicio(Exercicio exercicio);
 }

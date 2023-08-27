@@ -7,6 +7,10 @@ import com.danielbrai.gymtonic.dataprovider.mapper.impl.ExercicioEntityToModelMa
 import lombok.AllArgsConstructor;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,7 +20,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ExerciciosRepositoryImpl implements ExerciciosRepository {
 
-    private final JdbcTemplate jdbcTemplate;
+    private final NamedParameterJdbcTemplate jdbcTemplate;
     private final ExercicioEntityToModelMapper<ExercicioTable, Exercicio> exercicioEntityToModelMapper;
 
     @Override
@@ -36,5 +40,39 @@ public class ExerciciosRepositoryImpl implements ExerciciosRepository {
                 new BeanPropertyRowMapper<>(ExercicioTable.class)
         );
         return resultadoBuscaExercicios.stream().map(this.exercicioEntityToModelMapper::traduzir).collect(Collectors.toList());
+    }
+
+    @Override
+    public Integer criarExercicio(Exercicio exercicio) {
+
+        String instrucaoSql = """
+                                
+                INSERT INTO exercicio 
+                (
+                    nome,
+                    numero_series,
+                    carga,
+                    intervalo_segundos,
+                    numero_repeticoes
+                )
+                VALUES
+                (
+                    :nome,                    
+                    :numero_series,
+                    :carga,
+                    :intervalo_segundos,
+                    :numero_repeticoes
+                )
+        """;
+        SqlParameterSource namedParameters = new MapSqlParameterSource()
+                .addValue("nome", exercicio.getNome())
+                .addValue("numero_series", exercicio.getNumeroSeries())
+                .addValue("carga", exercicio.getCarga())
+                .addValue("intervalo_segundos", exercicio.getIntervaloSegundos())
+                .addValue("numero_repeticoes", exercicio.getNumeroRepeticoes());
+
+        GeneratedKeyHolder generatedKeyHolder = new GeneratedKeyHolder();
+        this.jdbcTemplate.update(instrucaoSql, namedParameters, generatedKeyHolder);
+        return (Integer) generatedKeyHolder.getKeys().get("id");
     }
 }
